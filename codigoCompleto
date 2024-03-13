@@ -1,4 +1,4 @@
-//Versión 2
+v 2.1.
 
 #include <iostream>
 #include <vector>
@@ -12,7 +12,7 @@ class Estudiante //clase Estudiante
     string nombreEstudiante;
     char genero;
     int edad;
-    int codigoEst; // (0,0) -> (x,y) : x=numAula ´ y=&estudiante
+    int codigoEstudiante;
 
     public:
     Estudiante (string, char, int, int);    
@@ -29,10 +29,11 @@ class Estudiante //clase Estudiante
     void setcodigoEstudiante (int);
 };
  
-    Estudiante::Estudiante (string nombreEstudiante, char genero, int edad) {
+    Estudiante::Estudiante (string nombreEstudiante, char genero, int edad, int codigoEstudiante) {
         this->nombreEstudiante = nombreEstudiante;
         this->genero = genero;
         this->edad = edad;
+        this->codigoEstudiante = codigoEstudiante;
     };
      
     Estudiante::Estudiante () {
@@ -55,7 +56,11 @@ class Estudiante //clase Estudiante
     void Estudiante::setedad (int edad) { 
         this->edad = edad;
     } 
-     
+    
+    void Estudiante::setcodigoEstudiante (int codigoEstudiante) {
+        this->codigoEstudiante = codigoEstudiante;
+    }
+    
     string Estudiante::getnombreEstudiante () { 
         return nombreEstudiante;
     }
@@ -66,6 +71,10 @@ class Estudiante //clase Estudiante
      
     int Estudiante::getedad () { 
         return edad;
+    }
+    
+    int Estudiante::getcodigoEstudiante () {
+        return codigoEstudiante;
     }
  
 class Aula { //clase Aula
@@ -182,58 +191,15 @@ void mostrarMenu() {
     cout << endl << "Ingrese una opción: ";
 };
 
-//MAIN
 int main() {
+    
     vector<Aula> aulas;
     vector<Estudiante> estudiantes;
     int opcion;
-
-    while (true) {
-        mostrarMenu();
-        cin >> opcion;
-
-        switch (opcion) {
-            case 1:
-                mostrarAulas(aulas);
-                break;
-            case 2:
-                mostrarEstudiantes(estudiantes);
-                break;
-            case 3:
-                aulas.push_back(Aula(aulas.size() + 1));
-                cout << "Aula agregada con éxito" << endl;
-                break;
-            case 4:
-                estudiantes.push_back(Estudiante("Nombre", estudiantes.size() + 1));
-                cout << "Estudiante agregado con éxito" << endl;
-                break;
-            case 5:
-                if (aulas.size() > 0) {
-                    aulas.pop_back();
-                    cout << "Aula eliminada con éxito" << endl;
-                } else {
-                    std::cout << "No hay aulas para eliminar" << endl;
-                }
-                break;
-            case 6:
-                if (estudiantes.size() > 0) {
-                    estudiantes.pop_back();
-                    cout << "Estudiante eliminado con éxito" << endl;
-                } else {
-                    cout << "No hay estudiantes para eliminar" << endl;
-                }
-                break;
-            case 7:
-                cout << endl << "Volviendo al menu principal..." << endl;
-                break;
-            case 8:
-                cout << "Saliendo..." << endl;
-                return 0;
-            default:
-                cout << "Opción inválida" << endl;
-                break;
-        }
-    }
+    
+    cout << "Universidad Del Cauca" << endl << endl;
+    
+    mostrarMenu();
 
     return 0;
 }

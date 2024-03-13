@@ -1,0 +1,239 @@
+//Versión 2
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+ 
+class Estudiante //clase Estudiante
+ { 
+    private:
+    string nombreEstudiante;
+    char genero;
+    int edad;
+    int codigoEst; // (0,0) -> (x,y) : x=numAula ´ y=&estudiante
+
+    public:
+    Estudiante (string, char, int, int);    
+    Estudiante (); 
+    ~Estudiante ();
+    
+    string getnombreEstudiante ();
+    char getgenero ();
+    int getedad ();
+    int getcodigoEstudiante ();
+    void setnombreEstudiante (string);
+    void setgenero (char);
+    void setedad (int); 
+    void setcodigoEstudiante (int);
+};
+ 
+    Estudiante::Estudiante (string nombreEstudiante, char genero, int edad) {
+        this->nombreEstudiante = nombreEstudiante;
+        this->genero = genero;
+        this->edad = edad;
+    };
+     
+    Estudiante::Estudiante () {
+        nombreEstudiante = "";
+        genero = ' ';
+        edad = 0;
+        codigoEstudiante = 0;
+    };
+     
+    Estudiante::~Estudiante() {};
+     
+    void Estudiante::setnombreEstudiante (string nombreEstudiante) { 
+        this->nombreEstudiante = nombreEstudiante;
+    } 
+    
+    void Estudiante::setgenero (char genero) { 
+        this->genero = genero;
+    } 
+    
+    void Estudiante::setedad (int edad) { 
+        this->edad = edad;
+    } 
+     
+    string Estudiante::getnombreEstudiante () { 
+        return nombreEstudiante;
+    }
+     
+    char Estudiante::getgenero () { 
+        return genero;
+    }
+     
+    int Estudiante::getedad () { 
+        return edad;
+    }
+ 
+class Aula { //clase Aula
+    private:
+        int numeroA;
+        int capacidad;
+        vector < Estudiante * >estudiantes;
+
+    public:
+        Aula (int, int);
+        Aula ();
+    
+    ~Aula ();
+    
+    int getNumeroA ();
+    int getCapacidad ();
+    vector < Estudiante * >getEstudiantes ();
+    void setNumeroA (int);
+    void setCapacidad (int);
+    void setEstudiantes (const vector < Estudiante * >&estudiantes);
+    void agregarEstudiante (Estudiante * estudiante);
+    void listaDeEstudiantes (const vector < Estudiante * >&estudiantes);
+};
+
+	Aula::Aula (int numeroA, int capacidad) { 
+	this->numeroA = numeroA;
+	this->capacidad = capacidad;
+	} 
+	 
+	Aula::Aula () { 
+	numeroA = 0;
+	capacidad = 0;
+	} 
+	 
+	Aula::~Aula () {}; 
+	 
+	int Aula::getNumeroA () { 
+	return numeroA;
+	}
+	
+	int Aula::getCapacidad (){ 
+	return capacidad;
+	}
+	
+	vector < Estudiante * >Aula::getEstudiantes () { 
+	return estudiantes;
+	}
+	
+	void Aula::setNumeroA (int numero) { 
+	this->numeroA = numeroA;
+	} 
+	
+	void Aula::setCapacidad (int capacidad) { 
+	this->capacidad = capacidad;
+	} 
+	
+	void Aula::setEstudiantes (const vector < Estudiante * >&estudiantes) { 
+	this->estudiantes = estudiantes;
+	} 
+	 
+	void Aula::agregarEstudiante (Estudiante * estudiante) { 
+	estudiantes.push_back (estudiante);
+	} 
+ 
+void Aula::listaDeEstudiantes (const vector < Estudiante * >&estudiantes) { 
+    for (const auto & estudiante:estudiantes) {
+    cout << "Nombre: " << estudiante->getnombreEstudiante () << ", Genero: " << estudiante->getgenero () << ", Edad: " << estudiante->getedad () << endl;
+	} 
+} 
+ 
+//clase Instituto
+class Instituto { 
+    private:
+        string nombreI;
+        vector < Aula * >aulas;
+ 
+    public:
+        Instituto (string);
+        Instituto ();
+    
+    ~Instituto ();
+    
+    string getNombreI ();
+    vector < Aula * >getAulas ();
+    void setNombreI (string);
+    void setAulas (const vector < Aula * >&aulas);
+    void agregarAula (Aula * aula);
+    void mostrarInformacionAulas (const vector < Aula * >&aulas);
+    int verificarAula (int numeroA);
+    void cerrarAula (int numeroA);
+};
+
+// ImplementaciC3n de agregarAula
+void Instituto::agregarAula (Aula * aula) { 
+    aulas.push_back (aula);
+} 
+
+// ImplementaciC3n de mostrarInformacionAulas
+void Instituto::mostrarInformacionAulas (const vector < Aula * >&aulas) { 
+    for (const auto & aula:aulas) {
+    cout << "NC:mero de aula: " << aula->getNumeroA () << ", Capacidad: " << aula->getCapacidad () << endl;
+    } 
+} 
+
+void mostrarMenu() {
+    cout << "1. Mostrar aulas" << endl;
+    cout << "2. Mostrar estudiantes" << endl;
+    cout << "3. Agregar aula" << endl;
+    cout << "4. Agregar estudiante" << endl;
+    cout << "5. Eliminar aula" << endl;
+    cout << "6. Eliminar estudiante" << endl;
+    cout << "7. Volver al menú principal" << endl;
+    cout << "8. Salir" << endl;
+    cout << endl << "Ingrese una opción: ";
+};
+
+//MAIN
+int main() {
+    vector<Aula> aulas;
+    vector<Estudiante> estudiantes;
+    int opcion;
+
+    while (true) {
+        mostrarMenu();
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                mostrarAulas(aulas);
+                break;
+            case 2:
+                mostrarEstudiantes(estudiantes);
+                break;
+            case 3:
+                aulas.push_back(Aula(aulas.size() + 1));
+                cout << "Aula agregada con éxito" << endl;
+                break;
+            case 4:
+                estudiantes.push_back(Estudiante("Nombre", estudiantes.size() + 1));
+                cout << "Estudiante agregado con éxito" << endl;
+                break;
+            case 5:
+                if (aulas.size() > 0) {
+                    aulas.pop_back();
+                    cout << "Aula eliminada con éxito" << endl;
+                } else {
+                    std::cout << "No hay aulas para eliminar" << endl;
+                }
+                break;
+            case 6:
+                if (estudiantes.size() > 0) {
+                    estudiantes.pop_back();
+                    cout << "Estudiante eliminado con éxito" << endl;
+                } else {
+                    cout << "No hay estudiantes para eliminar" << endl;
+                }
+                break;
+            case 7:
+                cout << endl << "Volviendo al menu principal..." << endl;
+                break;
+            case 8:
+                cout << "Saliendo..." << endl;
+                return 0;
+            default:
+                cout << "Opción inválida" << endl;
+                break;
+        }
+    }
+
+    return 0;
+}
